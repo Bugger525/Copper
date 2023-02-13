@@ -34,7 +34,7 @@ namespace cu
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
-	void Renderer::Draw(Texture& texture, Vector2f position, Vector2f size, Angle rotate)
+	void Renderer::Draw(std::shared_ptr<Texture> texture, Vector2f position, Vector2f size, Angle rotate)
 	{
 		m_Shader->Use();
 		Transform model;
@@ -53,13 +53,13 @@ namespace cu
 		m_Shader->SetUniform("model", model);
 
 		glActiveTexture(GL_TEXTURE0);
-		texture.Use();
+		texture->Use();
 
 		glBindVertexArray(m_QuadVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 	}
-	void Renderer::Draw(Texture& texture, const Rectf& body, Angle rotate)
+	void Renderer::Draw(std::shared_ptr<Texture> texture, const Rectf& body, Angle rotate)
 	{
 		m_Shader->Use();
 		Transform model;
@@ -78,7 +78,7 @@ namespace cu
 		m_Shader->SetUniform("model", model);
 
 		glActiveTexture(GL_TEXTURE0);
-		texture.Use();
+		texture->Use();
 
 		glBindVertexArray(m_QuadVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 6);

@@ -13,10 +13,9 @@ namespace cu
 		unsigned int m_Height;
 	public:
 		Texture();
+		Texture(unsigned int width, unsigned int height, unsigned char* const image);
 		~Texture();
 
-		bool LoadFromFile(std::string_view filePath);
-		bool LoadFromData(unsigned int width, unsigned int height, unsigned char* const data);
 		void Use() const;
 
 		unsigned int GetWidth() const;

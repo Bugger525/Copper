@@ -5,6 +5,9 @@
 #include <sstream>
 #include <iostream>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 namespace cu
 {
 	AssetManager::AssetManager() : m_EmptyDir(true)
@@ -16,13 +19,6 @@ namespace cu
 			return;
 		m_Directory = directory;
 		m_EmptyDir = false;
-	}
-	AssetManager::~AssetManager()
-	{
-		//for (auto it = m_Shaders.begin(); it != m_Shaders.end(); ++it)
-		//	delete it->second;
-		//for (auto it = m_Textures.begin(); it != m_Textures.end(); ++it)
-		//	delete it->second;
 	}
 	void AssetManager::SetDirectory(std::string_view directory)
 	{
@@ -36,9 +32,16 @@ namespace cu
 		std::string shaderCode;
 
 		std::string path;
-		path += m_Directory;
-		path += "/";
-		path += shaderPath;
+		if (!m_EmptyDir)
+		{
+			path += m_Directory;
+			path += "/";
+			path += shaderPath;
+		}
+		else
+		{
+			path = shaderPath;
+		}
 
 		try
 		{
@@ -68,14 +71,23 @@ namespace cu
 		std::string fragmentShaderCode;
 
 		std::string vPath;
-		vPath += m_Directory;
-		vPath += "/";
-		vPath += vertexShaderPath;
-
 		std::string fPath;
-		fPath += m_Directory;
-		fPath += "/";
-		fPath += fragmentShaderPath;
+
+		if (!m_EmptyDir)
+		{
+			vPath += m_Directory;
+			vPath += "/";
+			vPath += vertexShaderPath;
+
+			fPath += m_Directory;
+			fPath += "/";
+			fPath += fragmentShaderPath;
+		}
+		else
+		{
+			vPath = vertexShaderPath;
+			fPath = fragmentShaderPath;
+		}
 
 		try
 		{
@@ -103,17 +115,41 @@ namespace cu
 		return true;
 	}
 
-	std::shared_ptr<Shader> AssetManager::GetShader(std::string_view name)
+	ShaderPtr AssetManager::GetShader(std::string_view name)
 	{
 		return m_Shaders.at(std::string(name));
 	}
 
-	bool AssetManager::LoadTexture(std::string_view filePath)
+	bool AssetManager::LoadTexture(std::string_view name, std::string_view filePath)
 	{
-		return false;
+		int width, height, nrChannels;
+
+		std::string path;
+
+		if (!m_EmptyDir)
+		{
+			path += m_Directory;
+			path += "/";
+			path += filePath;
+		}
+		else
+		{
+			path = filePath;
+		}
+
+		auto data = stbi_load(path.c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
+
+		if (!data)
+		{
+			CU_DBG_ERROR("Failed to load texture: {}", stbi_failure_reason());
+			return false;
+		}
+		m_Textures[std::string(name)] = std::make_shared<Texture>(width, height, data);
+		stbi_image_free(data);
+		return true;
 	}
 
-	std::shared_ptr<Texture> AssetManager::GetTexture(std::string_view name)
+	TexturePtr AssetManager::GetTexture(std::string_view name)
 	{
 		return m_Textures.at(std::string(name));
 	}

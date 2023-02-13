@@ -8,10 +8,12 @@ class DemoGame : public cu::Game
 {
 private:
 	cu::Window m_Window;
-	std::shared_ptr<cu::Shader> m_Shader;
-	cu::Texture m_Texture;
+	cu::ShaderPtr m_Shader;
+	cu::TexturePtr m_Texture;
 	cu::Renderer m_Renderer;
+
 	cu::AssetManager m_ShadersManager;
+	cu::AssetManager m_ImagesManager;
 protected:
 	void Initialize() override
 	{
@@ -20,8 +22,6 @@ protected:
 
 		m_ShadersManager = cu::AssetManager("Shaders");
 		m_ShadersManager.LoadShaders("mainShader", "shader.vert", "shader.frag");
-
-		//m_Shader.LoadFromFile("Shaders/shader.vert", "Shaders/shader.frag");
 
 		m_Shader = m_ShadersManager.GetShader("mainShader");
 
@@ -33,7 +33,11 @@ protected:
 		glUniformMatrix4fv(glGetUniformLocation(m_Shader->GetData(), "projection"), 1, false, &projection[0][0]);
 
 		m_Renderer = cu::Renderer(m_Shader);
-		m_Texture.LoadFromFile("Assets/Platform.png");
+
+		m_ImagesManager = cu::AssetManager("Assets");
+		m_ImagesManager.LoadTexture("platform", "Platform.png");
+
+		m_Texture = m_ImagesManager.GetTexture("platform");
 	}
 	void Update() override
 	{

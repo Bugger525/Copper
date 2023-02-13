@@ -18,7 +18,7 @@ namespace cu
 		Renderer();
 		Renderer(std::shared_ptr<Shader> shader);
 
-		void Draw(Texture& texture, Vector2f position, Vector2f size, Angle rotate);
-		void Draw(Texture& texture, const Rectf& body, Angle rotate);
+		void Draw(std::shared_ptr<Texture> texture, Vector2f position, Vector2f size, Angle rotate);
+		void Draw(std::shared_ptr<Texture> texture, const Rectf& body, Angle rotate);
 	};
 }
