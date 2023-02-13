@@ -8,7 +8,7 @@ namespace cu
 	Renderer::Renderer() : m_QuadVAO(NULL)
 	{
 	}
-	Renderer::Renderer(Shader& shader) : m_Shader(shader)
+	Renderer::Renderer(std::shared_ptr<Shader> shader) : m_Shader(shader)
 	{
 		unsigned int VBO;
 		float vertices[] = {
@@ -36,7 +36,7 @@ namespace cu
 	}
 	void Renderer::Draw(Texture& texture, Vector2f position, Vector2f size, Angle rotate)
 	{
-		m_Shader.Use();
+		m_Shader->Use();
 		Transform model;
 
 		// Move
@@ -50,7 +50,7 @@ namespace cu
 		// Scale
 		model.Scale(size);
 
-		m_Shader.SetUniform("model", model);
+		m_Shader->SetUniform("model", model);
 
 		glActiveTexture(GL_TEXTURE0);
 		texture.Use();
@@ -61,7 +61,7 @@ namespace cu
 	}
 	void Renderer::Draw(Texture& texture, const Rectf& body, Angle rotate)
 	{
-		m_Shader.Use();
+		m_Shader->Use();
 		Transform model;
 
 		// Move
@@ -75,7 +75,7 @@ namespace cu
 		// Scale
 		model.Scale(body.Size);
 
-		m_Shader.SetUniform("model", model);
+		m_Shader->SetUniform("model", model);
 
 		glActiveTexture(GL_TEXTURE0);
 		texture.Use();

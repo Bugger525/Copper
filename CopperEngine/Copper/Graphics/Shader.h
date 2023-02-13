@@ -17,11 +17,12 @@ namespace cu
 		unsigned int m_Data;
 	public:
 		Shader();
+		Shader(std::string_view shaderCode, ShaderType type);
+		Shader(std::string_view vertexShaderCode, std::string_view fragmentShaderCode);
 		~Shader();
 
-		bool LoadFromFile(std::string_view shaderPath, ShaderType type);
-		bool LoadFromFile(std::string_view vertexShaderPath, std::string_view fragmentShaderPath);
-		bool LoadFromCode(std::string_view shaderCode, ShaderType type);
+		void Init(std::string_view vertexShaderCode, std::string_view fragmentShaderCode);
+
 		unsigned int GetData() const;
 		void Use();
 
@@ -33,5 +34,6 @@ namespace cu
 		void SetUniform(std::string_view name, Color color) const;
 
 		void Cleanup();
+	private:
 	};
 }

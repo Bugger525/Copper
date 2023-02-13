@@ -150,6 +150,7 @@
     <ClCompile Include="Copper\System\Clock.cpp" />
     <ClCompile Include="Copper\System\Debug.cpp" />
     <ClCompile Include="Copper\System\Game.cpp" />
+    <ClCompile Include="Copper\System\AssetManager.cpp" />
     <ClCompile Include="Copper\System\Window.cpp" />
     <None Include="Copper\System\Rect.inl">
       <FileType>Document</FileType>
@@ -465,6 +466,7 @@
     <ClInclude Include="Copper\System\Clock.h" />
     <ClInclude Include="Copper\System\Debug.h" />
     <ClInclude Include="Copper\System\Game.h" />
+    <ClInclude Include="Copper\System\AssetManager.h" />
     <ClInclude Include="Copper\System\Vector2.h" />
     <ClInclude Include="Copper\System\Vector3.h" />
     <ClInclude Include="Copper\System\Window.h" />
