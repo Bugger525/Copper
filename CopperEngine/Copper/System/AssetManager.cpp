@@ -10,42 +10,15 @@
 
 namespace cu
 {
-	AssetManager::AssetManager() : m_EmptyDir(true)
-	{
-	}
-	AssetManager::AssetManager(std::string_view directory) : m_EmptyDir(true)
-	{
-		if (directory.length() <= 0)
-			return;
-		m_Directory = directory;
-		m_EmptyDir = false;
-	}
-	void AssetManager::SetDirectory(std::string_view directory)
-	{
-		m_Directory = directory;
-		if (m_EmptyDir)
-			m_EmptyDir = false;
-	}
+	static std::map<std::string, ShaderPtr> m_Shaders;
+	static std::map<std::string, TexturePtr> m_Textures;
 
-	bool AssetManager::LoadShader(std::string_view name, std::string_view shaderPath, ShaderType type)
+	ShaderPtr AssetManager::LoadShader(std::string_view name, std::string_view shaderPath, ShaderType type)
 	{
 		std::string shaderCode;
-
-		std::string path;
-		if (!m_EmptyDir)
-		{
-			path += m_Directory;
-			path += "/";
-			path += shaderPath;
-		}
-		else
-		{
-			path = shaderPath;
-		}
-
 		try
 		{
-			std::ifstream shaderFile(path);
+			std::ifstream shaderFile(shaderPath.data());
 
 			std::stringstream stream;
 			stream << shaderFile.rdbuf();
@@ -57,42 +30,20 @@ namespace cu
 		catch (std::ifstream::failure e)
 		{
 			Debug::Error("Failed to read shader code.");
-			return false;
+			return nullptr;
 		}
 
-		m_Shaders[std::string(name)] = std::make_shared<Shader>(shaderCode, type);
-
-		return true;
+		return m_Shaders[std::string(name)] = std::make_shared<Shader>(shaderCode, type);
 	}
-
-	bool AssetManager::LoadShaders(std::string_view name, std::string_view vertexShaderPath, std::string_view fragmentShaderPath)
+	ShaderPtr AssetManager::LoadShaders(std::string_view name, std::string_view vertexShaderPath, std::string_view fragmentShaderPath)
 	{
 		std::string vertexShaderCode;
 		std::string fragmentShaderCode;
 
-		std::string vPath;
-		std::string fPath;
-
-		if (!m_EmptyDir)
-		{
-			vPath += m_Directory;
-			vPath += "/";
-			vPath += vertexShaderPath;
-
-			fPath += m_Directory;
-			fPath += "/";
-			fPath += fragmentShaderPath;
-		}
-		else
-		{
-			vPath = vertexShaderPath;
-			fPath = fragmentShaderPath;
-		}
-
 		try
 		{
-			std::ifstream vertexShaderFile(vPath);
-			std::ifstream fragmentShaderFile(fPath);
+			std::ifstream vertexShaderFile(vertexShaderPath.data());
+			std::ifstream fragmentShaderFile(fragmentShaderPath.data());
 
 			std::stringstream vStream;
 			std::stringstream fStream;
@@ -109,46 +60,33 @@ namespace cu
 		catch (std::ifstream::failure e)
 		{
 			Debug::Error("Failed to read shader codes.");
-			return false;
+			return nullptr;
 		}
-		m_Shaders[std::string(name)] = std::make_shared<Shader>(vertexShaderCode, fragmentShaderCode);
-		return true;
-	}
 
+		return m_Shaders[std::string(name)] = std::make_shared<Shader>(vertexShaderCode, fragmentShaderCode);
+	}
 	ShaderPtr AssetManager::GetShader(std::string_view name)
 	{
 		return m_Shaders.at(std::string(name));
 	}
-
-	bool AssetManager::LoadTexture(std::string_view name, std::string_view filePath)
+	TexturePtr AssetManager::LoadTexture(std::string_view name, std::string_view filePath)
 	{
 		int width, height, nrChannels;
 
-		std::string path;
-
-		if (!m_EmptyDir)
-		{
-			path += m_Directory;
-			path += "/";
-			path += filePath;
-		}
-		else
-		{
-			path = filePath;
-		}
-
-		auto data = stbi_load(path.c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
+		auto data = stbi_load(filePath.data(), &width, &height, &nrChannels, STBI_rgb_alpha);
 
 		if (!data)
 		{
 			CU_DBG_ERROR("Failed to load texture: {}", stbi_failure_reason());
-			return false;
+			return nullptr;
 		}
-		m_Textures[std::string(name)] = std::make_shared<Texture>(width, height, data);
-		stbi_image_free(data);
-		return true;
-	}
 
+		m_Textures[std::string(name)] = std::make_shared<Texture>(width, height, data);
+
+		stbi_image_free(data);
+
+		return m_Textures[std::string(name)];
+	}
 	TexturePtr AssetManager::GetTexture(std::string_view name)
 	{
 		return m_Textures.at(std::string(name));

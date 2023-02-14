@@ -32,12 +32,13 @@ namespace cu
 	{
 		return X * vec.X + Y * vec.Y;
 	}
-	template<typename T>
+	const Vector2<float> Vector2<float>::Zero = Vector2(0.f, 0.f);
+	template <typename T>
 	Vector2<T> operator+(const Vector2<T>& left, const Vector2<T>& right)
 	{
 		return Vector2(left.X + right.X, left.Y + right.Y);
 	}
-	template<typename T>
+	template <typename T>
 	Vector2<T>& operator+=(Vector2<T>& left, const Vector2<T>& right)
 	{
 		left.X += right.X;
@@ -45,17 +46,17 @@ namespace cu
 
 		return left;
 	}
-	template<typename T>
+	template <typename T>
 	Vector2<T> operator-(const Vector2<T>& vec)
 	{
 		return Vector2(-vec.X, -vec.Y);
 	}
-	template<typename T>
+	template <typename T>
 	Vector2<T> operator-(const Vector2<T>& left, const Vector2<T>& right)
 	{
 		return Vector2(left.X - right.X, left.Y - right.Y);
 	}
-	template<typename T>
+	template <typename T>
 	Vector2<T>& operator-=(Vector2<T>& left, const Vector2<T>& right)
 	{
 		left.X -= right.X;
@@ -63,17 +64,17 @@ namespace cu
 
 		return left;
 	}
-	template<typename T>
+	template <typename T>
 	Vector2<T> operator*(const Vector2<T>& left, T scale)
 	{
 		return Vector2(left.X * scale, left.Y * scale);
 	}
-	template<typename T>
+	template <typename T>
 	Vector2<T> operator*(T scale, const Vector2<T>& right)
 	{
 		return Vector2(right.X * scale, right.Y * scale);
 	}
-	template<typename T>
+	template <typename T>
 	Vector2<T>& operator*=(Vector2<T>& left, T scale)
 	{
 		left.X *= scale;
@@ -81,12 +82,12 @@ namespace cu
 
 		return left;
 	}
-	template<typename T>
+	template <typename T>
 	Vector2<T> operator/(const Vector2<T>& left, T scale)
 	{
 		return Vector2(left.X / scale, left.Y / scale);
 	}
-	template<typename T>
+	template <typename T>
 	Vector2<T>& operator/=(Vector2<T>& left, T scale)
 	{
 		left.X /= scale;
@@ -94,12 +95,12 @@ namespace cu
 
 		return left;
 	}
-	template<typename T>
+	template <typename T>
 	bool operator==(const Vector2<T>& left, const Vector2<T>& right)
 	{
 		return (left.X == right.X) & (left.Y == right.Y);
 	}
-	template<typename T>
+	template <typename T>
 	bool operator!=(const Vector2<T>& left, const Vector2<T>& right)
 	{
 		return (left.X != right.X) || (left.Y != right.Y);

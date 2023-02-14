@@ -2,8 +2,6 @@
 #include "../System/Debug.h"
 #include <GL/gl3w.h>
 
-
-
 namespace cu
 {
 	Texture::Texture()

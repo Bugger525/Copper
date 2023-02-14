@@ -31,7 +31,7 @@ namespace cu
 		void SetUniform(std::string_view name, float value) const;
 		void SetUniform(std::string_view name, const Matrix<4, 4>& mat) const;
 		void SetUniform(std::string_view name, const Transform& transform) const;
-		void SetUniform(std::string_view name, Color color) const;
+		void SetUniform(std::string_view name, const Color& color) const;
 
 		void Cleanup();
 	private:

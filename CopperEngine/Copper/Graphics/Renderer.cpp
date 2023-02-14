@@ -34,21 +34,28 @@ namespace cu
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
-	void Renderer::Draw(std::shared_ptr<Texture> texture, Vector2f position, Vector2f size, Angle rotate)
+	void Renderer::Draw(std::shared_ptr<Texture> texture, const Vector2f& position, const Vector2f& scale, const Angle& rotate)
 	{
 		m_Shader->Use();
+		m_Shader->SetUniform("tex", true);
 		Transform model;
 
 		// Move
 		model.Translate(position);
 
 		// Rotate
-		model.Translate(cu::Vector2f(0.5f * size.X, 0.5f * size.Y)); // Move to center of quad
-		// model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f)); // then rotate
-		model.Translate(cu::Vector2f(-0.5f * size.X, -0.5f * size.Y)); // Move back to origin
+		if (rotate.ToDegrees() != 0.f)
+		{
+			model.Translate(cu::Vector2f(0.5f * scale.X, 0.5f * scale.Y)); // Move to center of quad
+			// model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f)); // then rotate
+			model.Translate(cu::Vector2f(-0.5f * scale.X, -0.5f * scale.Y)); // Move back to origin
+		}
 
 		// Scale
-		model.Scale(size);
+		if (scale == Vector2f::Zero)
+			model.Scale(Vector2f(texture->GetWidth(), texture->GetHeight()));
+		else
+			model.Scale(scale);
 
 		m_Shader->SetUniform("model", model);
 
@@ -59,26 +66,25 @@ namespace cu
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 	}
-	void Renderer::Draw(std::shared_ptr<Texture> texture, const Rectf& body, Angle rotate)
+	void Renderer::Draw(const Rectf& rect, const Color& color, const Angle& rotate)
 	{
 		m_Shader->Use();
+		m_Shader->SetUniform("tex", false);
 		Transform model;
 
 		// Move
-		model.Translate(body.Position);
+		model.Translate(rect.Position);
 
 		// Rotate
-		model.Translate(cu::Vector2f(0.5f * body.Size.X, 0.5f * body.Size.Y)); // Move to center of quad
+		model.Translate(cu::Vector2f(0.5f * rect.Size.X, 0.5f * rect.Size.Y)); // Move to center of quad
 		// model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f)); // then rotate
-		model.Translate(cu::Vector2f(-0.5f * body.Size.X, -0.5f * body.Size.Y)); // Move back to origin
+		model.Translate(cu::Vector2f(-0.5f * rect.Size.X, -0.5f * rect.Size.Y)); // Move back to origin
 
 		// Scale
-		model.Scale(body.Size);
+		model.Scale(rect.Size);
 
 		m_Shader->SetUniform("model", model);
-
-		glActiveTexture(GL_TEXTURE0);
-		texture->Use();
+		m_Shader->SetUniform("spriteColor", color);
 
 		glBindVertexArray(m_QuadVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 6);

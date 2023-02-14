@@ -12,22 +12,14 @@ namespace cu
 	using TexturePtr = std::shared_ptr<Texture>;
 	class AssetManager
 	{
-	private:
-		std::string m_Directory;
-		bool m_EmptyDir;
-		std::map<std::string, ShaderPtr> m_Shaders;
-		std::map<std::string, TexturePtr> m_Textures;
 	public:
-		AssetManager();
-		AssetManager(std::string_view directory);
+		AssetManager() = delete;
 
-		void SetDirectory(std::string_view directory);
+		static ShaderPtr LoadShader(std::string_view name, std::string_view shaderPath, ShaderType type);
+		static ShaderPtr LoadShaders(std::string_view name, std::string_view vertexShaderPath, std::string_view fragmentShaderPath);
+		static ShaderPtr GetShader(std::string_view name);
 
-		bool LoadShader(std::string_view name, std::string_view shaderPath, ShaderType type);
-		bool LoadShaders(std::string_view name, std::string_view vertexShaderPath, std::string_view fragmentShaderPath);
-		ShaderPtr GetShader(std::string_view name);
-
-		bool LoadTexture(std::string_view name, std::string_view filePath);
-		TexturePtr GetTexture(std::string_view name);
+		static TexturePtr LoadTexture(std::string_view name, std::string_view filePath);
+		static TexturePtr GetTexture(std::string_view name);
 	};
 }

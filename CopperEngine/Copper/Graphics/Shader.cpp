@@ -199,7 +199,7 @@ namespace cu
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_Data, name.data()), 1, false, transform.GetData());
 	}
-	void Shader::SetUniform(std::string_view name, Color color) const
+	void Shader::SetUniform(std::string_view name, const Color& color) const
 	{
 		glUniform3f(glGetUniformLocation(m_Data, name.data()), color.R, color.G, color.B);
 	}

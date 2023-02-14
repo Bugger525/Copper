@@ -11,19 +11,18 @@ private:
 	cu::ShaderPtr m_Shader;
 	cu::TexturePtr m_Texture;
 	cu::Renderer m_Renderer;
-
-	cu::AssetManager m_ShadersManager;
-	cu::AssetManager m_ImagesManager;
 protected:
 	void Initialize() override
 	{
 		m_Window.Create(800, 600, "CopperEngine Demo game");
 		this->SetWindow(m_Window);
 
-		m_ShadersManager = cu::AssetManager("Shaders");
-		m_ShadersManager.LoadShaders("mainShader", "shader.vert", "shader.frag");
-
-		m_Shader = m_ShadersManager.GetShader("mainShader");
+		m_Shader = cu::AssetManager::LoadShaders("mainShader", "Shaders/shader.vert", "Shaders/shader.frag");
+		if (m_Shader == nullptr)
+		{
+			cu::Debug::Error("Shader fucked!");
+			return;
+		}
 
 		glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_Window.GetWidth()),
 			static_cast<float>(m_Window.GetHeight()), 0.0f, -1.0f, 1.0f);
@@ -34,10 +33,12 @@ protected:
 
 		m_Renderer = cu::Renderer(m_Shader);
 
-		m_ImagesManager = cu::AssetManager("Assets");
-		m_ImagesManager.LoadTexture("platform", "Platform.png");
-
-		m_Texture = m_ImagesManager.GetTexture("platform");
+		m_Texture = cu::AssetManager::LoadTexture("platform", "Assets/Platform.png");
+		if (m_Texture == nullptr)
+		{
+			cu::Debug::Error("Texture fucked!");
+			return;
+		}
 	}
 	void Update() override
 	{
@@ -46,7 +47,8 @@ protected:
 	}
 	void Render() override
 	{
-		m_Renderer.Draw(m_Texture, cu::Rectf(100.f, 100.f, 200.f, 200.f), cu::Angle::Degrees(45.f));
+		m_Renderer.Draw(m_Texture, cu::Vector2f(500.f, 200.f));
+		m_Renderer.Draw(cu::Rectf(500.f, 400.f, 100.f, 100.f), cu::Color::Red);
 	}
 	void Cleanup() override
 	{

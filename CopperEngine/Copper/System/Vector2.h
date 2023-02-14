@@ -15,6 +15,8 @@ namespace cu
 		T LengthSquared() const;
 		Vector2 Normalized() const;
 		float Dot(const Vector2& vec);
+
+		static const Vector2<float> Zero;
 	};
 	using Vector2f = Vector2<float>;
 	using Vector2i = Vector2<int>;
