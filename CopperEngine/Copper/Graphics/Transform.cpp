@@ -5,25 +5,21 @@ namespace cu
 {
 	Transform::Transform()
 	{
-		m_Data = new float[]
+		m_Data =
 		{
 			1.f, 0.f, 0.f, 0.f,
-				0.f, 1.f, 0.f, 0.f,
-				0.f, 0.f, 1.f, 0.f,
-				0.f, 0.f, 0.f, 1.f
+			0.f, 1.f, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			0.f, 0.f, 0.f, 1.f
 		};
 	}
-	Transform::~Transform()
-	{
-		delete[] m_Data;
-	}
-	const float* Transform::GetData() const
+	const std::array<float, 16>& Transform::GetData() const
 	{
 		return m_Data;
 	}
 	void Transform::Translate(const Vector2f& vec)
 	{
-		for (auto i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
 			m_Data[i + 4 * 3] = (m_Data[i] * vec.X
 				+ m_Data[i + 4 * 1] * vec.Y
@@ -33,7 +29,7 @@ namespace cu
 	}
 	void Transform::Scale(const Vector2f& scale)
 	{
-		for (auto i = 0; i < 4; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
 			m_Data[i] *= scale.X;
 			m_Data[i + 4 * 1] *= scale.Y;
@@ -48,7 +44,7 @@ namespace cu
 	}
 	void Transform::ToMatrix(Matrix<3, 3>& mat)
 	{
-		float* to = mat.Array;
+		auto to = mat.Array;
 
 		to[0] = m_Data[0];
 		to[1] = m_Data[1];
@@ -62,6 +58,6 @@ namespace cu
 	}
 	void Transform::ToMatrix(Matrix<4, 4>& mat)
 	{
-		std::copy(m_Data, m_Data + 4 * 4, mat.Array);
+		mat.Array = m_Data;
 	}
 }

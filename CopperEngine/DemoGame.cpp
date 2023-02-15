@@ -21,7 +21,7 @@ protected:
 		if (m_Shader == nullptr)
 		{
 			cu::Debug::Error("Shader fucked!");
-			return;
+			m_Window.Close();
 		}
 
 		glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_Window.GetWidth()),
@@ -37,7 +37,7 @@ protected:
 		if (m_Texture == nullptr)
 		{
 			cu::Debug::Error("Texture fucked!");
-			return;
+			m_Window.Close();
 		}
 	}
 	void Update() override

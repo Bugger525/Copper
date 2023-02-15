@@ -10,10 +10,10 @@
 
 namespace cu
 {
-	static std::map<std::string, ShaderPtr> m_Shaders;
-	static std::map<std::string, TexturePtr> m_Textures;
+	std::map<std::string, std::unique_ptr<Shader>> AssetManager::m_Shaders;
+	std::map<std::string, std::unique_ptr<Texture>> AssetManager::m_Textures;
 
-	ShaderPtr AssetManager::LoadShader(std::string_view name, std::string_view shaderPath, ShaderType type)
+	Shader& AssetManager::LoadShader(std::string_view name, std::string_view shaderPath, ShaderType type)
 	{
 		std::string shaderCode;
 		try
@@ -29,13 +29,15 @@ namespace cu
 		}
 		catch (std::ifstream::failure e)
 		{
-			Debug::Error("Failed to read shader code.");
+			CU_DBG_ERROR("Failed to read shader code: {}", e.what());
 			return nullptr;
 		}
 
-		return m_Shaders[std::string(name)] = std::make_shared<Shader>(shaderCode, type);
+		m_Shaders[std::string(name)] = std::make_unique<Shader>(shaderCode, type);
+
+		return *m_Shaders[std::string(name)];
 	}
-	ShaderPtr AssetManager::LoadShaders(std::string_view name, std::string_view vertexShaderPath, std::string_view fragmentShaderPath)
+	Shader& AssetManager::LoadShaders(std::string_view name, std::string_view vertexShaderPath, std::string_view fragmentShaderPath)
 	{
 		std::string vertexShaderCode;
 		std::string fragmentShaderCode;
@@ -63,17 +65,19 @@ namespace cu
 			return nullptr;
 		}
 
-		return m_Shaders[std::string(name)] = std::make_shared<Shader>(vertexShaderCode, fragmentShaderCode);
+		m_Shaders[std::string(name)] = std::make_unique<Shader>(vertexShaderCode, fragmentShaderCode);
+
+		return *m_Shaders[std::string(name)];
 	}
-	ShaderPtr AssetManager::GetShader(std::string_view name)
+	Shader& AssetManager::GetShader(std::string_view name)
 	{
-		return m_Shaders.at(std::string(name));
+		return *m_Shaders.at(std::string(name));
 	}
-	TexturePtr AssetManager::LoadTexture(std::string_view name, std::string_view filePath)
+	Texture& AssetManager::LoadTexture(std::string_view name, std::string_view filePath)
 	{
 		int width, height, nrChannels;
 
-		auto data = stbi_load(filePath.data(), &width, &height, &nrChannels, STBI_rgb_alpha);
+		unsigned char* data = stbi_load(filePath.data(), &width, &height, &nrChannels, STBI_rgb_alpha);
 
 		if (!data)
 		{
@@ -81,14 +85,14 @@ namespace cu
 			return nullptr;
 		}
 
-		m_Textures[std::string(name)] = std::make_shared<Texture>(width, height, data);
+		m_Textures[std::string(name)] = std::make_unique<Texture>(width, height, std::span<unsigned char>{data, static_cast<size_t>(width* height* STBI_rgb_alpha)});
 
 		stbi_image_free(data);
 
-		return m_Textures[std::string(name)];
+		return *m_Textures[std::string(name)];
 	}
-	TexturePtr AssetManager::GetTexture(std::string_view name)
+	Texture& AssetManager::GetTexture(std::string_view name)
 	{
-		return m_Textures.at(std::string(name));
+		return *m_Textures.at(std::string(name));
 	}
 }

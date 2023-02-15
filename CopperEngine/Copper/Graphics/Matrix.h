@@ -1,15 +1,16 @@
 #pragma once
 
-#include <cstddef>
+#include <array>
+#include <span>
 
 namespace cu
 {
-	template <std::size_t Columns, std::size_t Rows>
+	template <size_t Columns, size_t Rows>
 	struct Matrix
 	{
-		float Array[Columns * Rows]{};
+		std::array<float, Columns* Rows> Array;
 
-		Matrix(const float* rawArray);
+		Matrix(const std::span<float, Columns* Rows>& arr);
 	};
 }
 #include "Matrix.inl"

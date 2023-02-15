@@ -3,18 +3,18 @@
 #include "Matrix.h"
 #include "../System/Angle.h"
 #include "../System/Vector2.h"
+#include <array>
 
 namespace cu
 {
 	class Transform
 	{
 	private:
-		float* m_Data;
+		std::array<float, 16> m_Data;
 	public:
 		Transform();
-		~Transform();
 
-		const float* GetData() const;
+		const std::array<float, 16>& GetData() const;
 
 		void Translate(const Vector2f& vec);
 		void Scale(const Vector2f& scale);

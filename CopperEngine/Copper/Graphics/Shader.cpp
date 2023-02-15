@@ -193,11 +193,11 @@ namespace cu
 	}
 	void Shader::SetUniform(std::string_view name, const Matrix<4, 4>& mat) const
 	{
-		glUniformMatrix4fv(glGetUniformLocation(m_Data, name.data()), 1, false, mat.Array);
+		glUniformMatrix4fv(glGetUniformLocation(m_Data, name.data()), 1, false, mat.Array.data());
 	}
 	void Shader::SetUniform(std::string_view name, const Transform& transform) const
 	{
-		glUniformMatrix4fv(glGetUniformLocation(m_Data, name.data()), 1, false, transform.GetData());
+		glUniformMatrix4fv(glGetUniformLocation(m_Data, name.data()), 1, false, transform.GetData().data());
 	}
 	void Shader::SetUniform(std::string_view name, const Color& color) const
 	{

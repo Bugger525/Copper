@@ -8,13 +8,12 @@ namespace cu
 		: m_Data(NULL), m_Width(0), m_Height(0)
 	{
 	}
-	Texture::Texture(unsigned int width, unsigned int height, unsigned char* const image) : m_Data(NULL), m_Width(width), m_Height(height)
+	Texture::Texture(unsigned int width, unsigned int height, std::span<unsigned char> image) : m_Data(NULL), m_Width(width), m_Height(height)
 	{
-		m_Width = width;
-		m_Height = height;
+		m_Image.assign(image.begin(), image.end());
 
 		glBindTexture(GL_TEXTURE_2D, m_Data);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_Image.data());
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -39,6 +38,10 @@ namespace cu
 	unsigned int Texture::GetHeight() const
 	{
 		return m_Height;
+	}
+	const std::vector<unsigned char>& Texture::GetImage() const
+	{
+		return m_Image;
 	}
 	void Texture::Cleanup()
 	{

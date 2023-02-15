@@ -34,10 +34,10 @@ namespace cu
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
-	void Renderer::Draw(std::shared_ptr<Texture> texture, const Vector2f& position, const Vector2f& scale, const Angle& rotate)
+	void Renderer::Draw(std::shared_ptr<Texture> texture, const Vector2f& position, const Vector2f& size, const Angle& rotate)
 	{
 		m_Shader->Use();
-		m_Shader->SetUniform("tex", true);
+		m_Shader->SetUniform("useTex", true);
 		Transform model;
 
 		// Move
@@ -46,16 +46,16 @@ namespace cu
 		// Rotate
 		if (rotate.ToDegrees() != 0.f)
 		{
-			model.Translate(cu::Vector2f(0.5f * scale.X, 0.5f * scale.Y)); // Move to center of quad
+			model.Translate(cu::Vector2f(0.5f * size.X, 0.5f * size.Y)); // Move to center of quad
 			// model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f)); // then rotate
-			model.Translate(cu::Vector2f(-0.5f * scale.X, -0.5f * scale.Y)); // Move back to origin
+			model.Translate(cu::Vector2f(-0.5f * size.X, -0.5f * size.Y)); // Move back to origin
 		}
 
 		// Scale
-		if (scale == Vector2f::Zero)
+		if (size == Vector2f::Zero)
 			model.Scale(Vector2f(texture->GetWidth(), texture->GetHeight()));
 		else
-			model.Scale(scale);
+			model.Scale(size);
 
 		m_Shader->SetUniform("model", model);
 
@@ -69,7 +69,7 @@ namespace cu
 	void Renderer::Draw(const Rectf& rect, const Color& color, const Angle& rotate)
 	{
 		m_Shader->Use();
-		m_Shader->SetUniform("tex", false);
+		m_Shader->SetUniform("useTex", false);
 		Transform model;
 
 		// Move
