@@ -3,7 +3,7 @@
 #include <array>
 #include <span>
 
-namespace cu
+namespace cu::gfx
 {
 	template <size_t Columns, size_t Rows>
 	struct Matrix

@@ -1,19 +1,18 @@
 #include "Copper/Copper.hpp"
-#include "Copper/core/AssetManager.h"
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 #include <GL/gl3w.h>
 
-using namespace cu::System;
+using namespace cu;
 
-class DemoGame : public Game
+class DemoGame : public sys::Game
 {
 private:
-	cu::gfx::Shader m_Shader;
+	gfx::Shader m_Shader;
 	cu::TexturePtr m_Texture;
 	cu::Renderer m_Renderer;
 protected:
-	const WindowProperties& SetWindowProperties() override
+	const sys::WindowProperties& SetWindowProperties() override
 	{
 		WindowProperties prop;
 		prop.Size = { 800, 600 };

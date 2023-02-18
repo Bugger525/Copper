@@ -14,6 +14,6 @@ namespace cu::core
 		AssetStream(std::string_view rootDir);
 
 		std::string_view ReadText(std::string_view path);
-		const gfx::Image& ReadImage(std::string_view path);
+		gfx::Image ReadImage(std::string_view path);
 	};
 }

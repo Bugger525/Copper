@@ -26,7 +26,7 @@ static void APIENTRY GLFWDebugOutput(GLenum source, GLenum type, unsigned int id
 	}
 }
 
-namespace cu::System
+namespace cu::sys
 {
 	Window::Window()
 		: m_PosX(0), m_PosY(0), m_Width(800), m_Height(600), m_Title("CopperEngine app"), m_Fullscreen(false), m_Resizable(true), m_Window(nullptr), m_Monitor(nullptr)

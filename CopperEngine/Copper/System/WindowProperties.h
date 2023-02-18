@@ -3,7 +3,7 @@
 #include "Vector2.h"
 #include <string>
 
-namespace cu::System
+namespace cu::sys
 {
 	struct WindowProperties
 	{

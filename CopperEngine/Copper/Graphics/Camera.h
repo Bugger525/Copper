@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cu
+namespace cu::gfx
 {
 	class Camera
 	{

@@ -1,6 +1,6 @@
 #include "Matrix.h"
 
-namespace cu
+namespace cu::gfx
 {
 	template <std::size_t Columns, std::size_t Rows>
 	Matrix<Columns, Rows>::Matrix(const std::span<float, Columns* Rows>& arr)

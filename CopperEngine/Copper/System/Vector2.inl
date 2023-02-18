@@ -1,6 +1,6 @@
 #include <cmath>
 
-namespace cu
+namespace cu::sys
 {
 	template <typename T>
 	Vector2<T>::Vector2() { }

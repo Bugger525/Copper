@@ -136,7 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Copper\core\AssetManager.cpp" />
+    <ClCompile Include="Copper\core\AssetStream.cpp" />
     <ClCompile Include="Copper\Graphics\Camera.cpp" />
     <ClCompile Include="Copper\Graphics\Image.cpp" />
     <ClCompile Include="Copper\Graphics\Renderer.cpp" />
@@ -146,7 +146,8 @@
     <ClCompile Include="Copper\Includes\glm\detail\glm.cpp" />
     <ClCompile Include="Copper\Input\Keyboard.cpp" />
     <ClCompile Include="Copper\Graphics\Shader.cpp" />
-    <ClInclude Include="Copper\core\Asset.h" />
+    <ClInclude Include="Copper\core\AssetStream.h" />
+    <ClInclude Include="Copper\core\IAsset.h" />
     <ClInclude Include="Copper\System\WindowProperties.h" />
     <None Include="Copper\Graphics\Color.inl" />
     <None Include="Copper\System\Angle.inl">

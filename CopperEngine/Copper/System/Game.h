@@ -1,17 +1,15 @@
 #pragma once
 
 #include "Window.h"
-#include "../core/AssetManager.h"
+#include "../Core/AssetManager.h"
 #include "../Graphics/Image.h"
 
-namespace cu::System
+namespace cu::sys
 {
 	class Game
 	{
 	private:
 		Window m_Window;
-
-		core::AssetManager m_ImageManager;
 	protected:
 		virtual const WindowProperties& SetWindowProperties() = 0;
 		virtual void Initialize() = 0;

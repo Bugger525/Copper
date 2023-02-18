@@ -5,7 +5,7 @@
 #include "../System/Vector2.h"
 #include <array>
 
-namespace cu
+namespace cu::gfx
 {
 	class Transform
 	{

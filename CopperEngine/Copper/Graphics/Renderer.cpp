@@ -3,7 +3,7 @@
 #include "../System/Debug.h"
 #include <GL/gl3w.h>
 
-namespace cu
+namespace cu::gfx
 {
 	Renderer::Renderer() : m_QuadVAO(NULL)
 	{

@@ -60,7 +60,7 @@
     <ClCompile Include="Copper\System\WindowProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Copper\core\AssetManager.cpp">
+    <ClCompile Include="Copper\core\AssetStream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1010,7 +1010,10 @@
     <ClInclude Include="Copper\System\WindowProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Copper\core\Asset.h">
+    <ClInclude Include="Copper\core\IAsset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Copper\core\AssetStream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

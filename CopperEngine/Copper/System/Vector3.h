@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cu
+namespace cu::sys
 {
 	template <typename T>
 	struct Vector3

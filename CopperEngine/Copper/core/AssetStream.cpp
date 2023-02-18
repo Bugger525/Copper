@@ -46,7 +46,7 @@ namespace cu::core
 		}
 		return text;
 	}
-	const gfx::Image& AssetStream::ReadImage(std::string_view path)
+	gfx::Image AssetStream::ReadImage(std::string_view path)
 	{
 		std::string p;
 		if (m_RootDir.length() > 0)

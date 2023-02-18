@@ -3,7 +3,7 @@
 #include "Window.h"
 #include <GL/gl3w.h>
 
-namespace cu::System
+namespace cu::sys
 {
 	void Game::Run()
 	{

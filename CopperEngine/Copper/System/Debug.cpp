@@ -1,7 +1,7 @@
 #include "Debug.h"
 #include <iostream>
 
-namespace cu
+namespace cu::sys
 {
 	void Debug::Critical(std::string_view str, const std::source_location& location)
 	{
