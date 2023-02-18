@@ -1,4 +1,4 @@
-namespace cu::gfx
+namespace Copper
 {
 	Color::Color(unsigned int r, unsigned int g, unsigned int b, unsigned int a)
 		: R(r), G(g), B(b), A(a)

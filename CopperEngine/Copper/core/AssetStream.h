@@ -3,7 +3,7 @@
 #include <string>
 #include "../Graphics/Image.h"
 
-namespace cu::core
+namespace Copper
 {
 	class AssetStream
 	{

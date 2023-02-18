@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cu::sys
+namespace Copper
 {
 	template <typename T>
 	struct Vector2

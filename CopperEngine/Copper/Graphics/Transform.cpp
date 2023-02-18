@@ -1,7 +1,7 @@
 #include "Transform.h"
 #include <algorithm>
 
-namespace cu::gfx
+namespace Copper
 {
 	Transform::Transform()
 	{

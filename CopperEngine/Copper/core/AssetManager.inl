@@ -1,6 +1,6 @@
 #include "../System/Debug.h"
 
-namespace cu::core
+namespace Copper
 {
 	template <Derived<IAsset> T>
 	void AssetManager<T>::Add(std::string_view name, std::shared_ptr<T> ref)

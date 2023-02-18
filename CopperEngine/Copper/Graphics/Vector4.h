@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cu::gfx
+namespace Copper
 {
 	template <typename T>
 	struct Vector4

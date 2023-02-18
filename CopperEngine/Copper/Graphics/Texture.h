@@ -4,9 +4,9 @@
 #include "Image.h"
 #include "../core/IAsset.h"
 
-namespace cu::gfx
+namespace Copper
 {
-	class Texture : core::IAsset
+	class Texture : IAsset
 	{
 	private:
 		unsigned int m_Data;

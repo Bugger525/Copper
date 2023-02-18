@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cu::sys
+namespace Copper
 {
 	class Clock
 	{

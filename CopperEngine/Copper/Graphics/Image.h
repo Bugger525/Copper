@@ -5,9 +5,9 @@
 #include <span>
 #include "../core/IAsset.h"
 
-namespace cu::gfx
+namespace Copper
 {
-	class Image : public core::IAsset
+	class Image : public IAsset
 	{
 	private:
 		std::vector<unsigned char> m_Data;

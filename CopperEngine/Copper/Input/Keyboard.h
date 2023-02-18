@@ -2,9 +2,9 @@
 
 struct GLFWwindow;
 
-namespace cu
+namespace Copper
 {
-	enum class Keys : int
+	enum class Key : int
 	{
 		Zero = 48,
 		One = 49,
@@ -85,8 +85,8 @@ namespace cu
 
 		static void Initialize(GLFWwindow* window);
 
-		static bool IsKeyHeld(Keys key);
-		static bool IsKeyPressed(Keys key);
-		static bool IsKeyReleased(Keys key);
+		static bool IsKeyHeld(Key key);
+		static bool IsKeyPressed(Key key);
+		static bool IsKeyReleased(Key key);
 	};
 }

@@ -1,7 +1,7 @@
 #include "Image.h"
 #include "../System/Debug.h"
 
-namespace cu::gfx
+namespace Copper
 {
 	Image::Image() : m_Width(0), m_Height(0)
 	{

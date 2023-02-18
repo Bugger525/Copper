@@ -7,7 +7,7 @@
 #include "../System/Angle.h"
 #include <memory>
 
-namespace cu::gfx
+namespace Copper
 {
 	class Renderer
 	{

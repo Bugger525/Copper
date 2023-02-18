@@ -20,7 +20,7 @@ static void GLFWKeyCallback(GLFWwindow* window, int key, int scanCode, int actio
 	KeyMap[key].first = action != GLFW_RELEASE;
 }
 
-namespace cu
+namespace Copper
 {
 	void Keyboard::Initialize(GLFWwindow* window)
 	{
@@ -30,7 +30,7 @@ namespace cu
 
 		Initialized = true;
 	}
-	bool Keyboard::IsKeyHeld(Keys key)
+	bool Keyboard::IsKeyHeld(Key key)
 	{
 		int code = static_cast<int>(key);
 
@@ -43,7 +43,7 @@ namespace cu
 		else
 			return false;
 	}
-	bool Keyboard::IsKeyPressed(Keys key)
+	bool Keyboard::IsKeyPressed(Key key)
 	{
 		int code = static_cast<int>(key);
 
@@ -56,7 +56,7 @@ namespace cu
 		else
 			return false;
 	}
-	bool Keyboard::IsKeyReleased(Keys key)
+	bool Keyboard::IsKeyReleased(Key key)
 	{
 		int code = static_cast<int>(key);
 

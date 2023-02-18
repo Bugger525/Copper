@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cu::core
+namespace Copper
 {
 	class IAsset
 	{

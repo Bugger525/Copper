@@ -5,14 +5,14 @@
 #include "Color.h"
 #include "../core/IAsset.h"
 
-namespace cu::gfx
+namespace Copper
 {
 	enum class ShaderType
 	{
 		Vertex,
 		Fragment
 	};
-	class Shader : public core::IAsset
+	class Shader : public IAsset
 	{
 	private:
 		unsigned int m_Data;
@@ -23,7 +23,7 @@ namespace cu::gfx
 		~Shader();
 
 		unsigned int GetData() const;
-		void Use();
+		Shader& Use();
 
 		void SetUniform(std::string_view name, bool value) const;
 		void SetUniform(std::string_view name, int value) const;

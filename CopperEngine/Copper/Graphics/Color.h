@@ -2,7 +2,7 @@
 
 #include "Vector4.h"
 
-namespace cu::gfx
+namespace Copper
 {
 	struct Color
 	{

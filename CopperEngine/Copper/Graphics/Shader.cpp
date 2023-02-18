@@ -8,7 +8,7 @@
 
 #include <GL/gl3w.h>
 
-namespace cu::gfx
+namespace Copper
 {
 	Shader::Shader() : m_Data(NULL)
 	{
@@ -65,9 +65,10 @@ namespace cu::gfx
 	{
 		return m_Data;
 	}
-	void Shader::Use()
+	Shader& Shader::Use()
 	{
 		glUseProgram(m_Data);
+		return *this;
 	}
 	void Shader::SetUniform(std::string_view name, bool value) const
 	{

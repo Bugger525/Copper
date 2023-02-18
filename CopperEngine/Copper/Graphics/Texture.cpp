@@ -2,7 +2,7 @@
 #include "../System/Debug.h"
 #include <GL/gl3w.h>
 
-namespace cu::gfx
+namespace Copper
 {
 	Texture::Texture() : m_Data(NULL)
 	{

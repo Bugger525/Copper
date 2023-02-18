@@ -2,16 +2,21 @@
 
 #include "Window.h"
 #include "../Core/AssetManager.h"
-#include "../Graphics/Image.h"
+#include "../Graphics/Shader.h"
+#include "../Graphics/Texture.h"
 
-namespace cu::sys
+namespace Copper
 {
 	class Game
 	{
-	private:
-		Window m_Window;
 	protected:
-		virtual const WindowProperties& SetWindowProperties() = 0;
+		Window Window;
+
+		AssetManager<Shader> ShaderManager;
+		AssetManager<Texture> TextureManager;
+		AssetManager<Image> ImageManager;
+
+		virtual WindowProperties SetWindowProperties() = 0;
 		virtual void Initialize() = 0;
 		virtual void Update() = 0;
 		virtual void Render() = 0;

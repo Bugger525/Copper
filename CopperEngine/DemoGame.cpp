@@ -3,18 +3,12 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <GL/gl3w.h>
 
-using namespace cu;
-
-class DemoGame : public sys::Game
+class DemoGame : public Copper::Game
 {
-private:
-	gfx::Shader m_Shader;
-	cu::TexturePtr m_Texture;
-	cu::Renderer m_Renderer;
 protected:
-	const sys::WindowProperties& SetWindowProperties() override
+	Copper::WindowProperties SetWindowProperties() override
 	{
-		WindowProperties prop;
+		Copper::WindowProperties prop;
 		prop.Size = { 800, 600 };
 		prop.FullScreen = false;
 		prop.Resizable = true;
@@ -23,34 +17,22 @@ protected:
 	}
 	void Initialize() override
 	{
-		auto shader = cu::core::AssetManager::Get<cu::gfx::Shader>("asd");
+		Copper::AssetStream stream("Shaders");
+		ShaderManager.Add("mainShader", std::make_shared<Copper::Shader>(stream.ReadText("shader.vert"), stream.ReadText("shader.frag")));
 
-		if (m_Shader == nullptr)
-		{
-			cu::Debug::Error("Shader fucked!");
-			m_Window.Close();
-		}
+		glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(Window.GetWidth()),
+			static_cast<float>(Window.GetHeight()), 0.0f, -1.0f, 1.0f);
 
-		glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_Window.GetWidth()),
-			static_cast<float>(m_Window.GetHeight()), 0.0f, -1.0f, 1.0f);
-
-		m_Shader->Use();
-		m_Shader->SetUniform("image", 0);
-		glUniformMatrix4fv(glGetUniformLocation(m_Shader->GetData(), "projection"), 1, false, &projection[0][0]);
+		auto mainShader = ShaderManager.Load("mainShader");
+		mainShader->Use().SetUniform("image", 0);
+		glUniformMatrix4fv(glGetUniformLocation(mainShader->GetData(), "projection"), 1, false, &projection[0][0]);
 
 		m_Renderer = cu::Renderer(m_Shader);
-
-		m_Texture = cu::AssetManager::LoadTexture("platform", "Assets/Platform.png");
-		if (m_Texture == nullptr)
-		{
-			cu::Debug::Error("Texture fucked!");
-			m_Window.Close();
-		}
 	}
 	void Update() override
 	{
-		if (cu::Keyboard::IsKeyPressed(cu::Keys::Escape))
-			m_Window.Close();
+		if (Copper::Keyboard::IsKeyPressed(Copper::Key::Escape))
+			Window.Close();
 	}
 	void Render() override
 	{

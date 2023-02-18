@@ -1,5 +1,5 @@
 #pragma once
 
-namespace cu::gfx
+namespace Copper
 {
 }

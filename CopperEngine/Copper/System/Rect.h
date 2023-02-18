@@ -3,7 +3,7 @@
 #include "Vector2.h"
 #include <optional>
 
-namespace cu::sys
+namespace Copper
 {
 	template <typename T>
 	struct Rect

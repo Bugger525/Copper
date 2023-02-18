@@ -3,15 +3,15 @@
 #include "Window.h"
 #include <GL/gl3w.h>
 
-namespace cu::sys
+namespace Copper
 {
 	void Game::Run()
 	{
-		m_Window = Window(SetWindowProperties());
+		Window = Copper::Window(SetWindowProperties());
 
 		Initialize();
 
-		while (m_Window.IsOpen())
+		while (Window.IsOpen())
 		{
 			Update();
 
@@ -19,7 +19,7 @@ namespace cu::sys
 			glClear(GL_COLOR_BUFFER_BIT);
 			Render();
 
-			m_Window.UpdateFrame();
+			Window.UpdateFrame();
 		}
 		Cleanup();
 	}

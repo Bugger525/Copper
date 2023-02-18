@@ -1,6 +1,6 @@
 static const float PI = 3.1415927f;
 
-namespace cu::sys
+namespace Copper
 {
 	Angle::Angle(float degrees) : m_Degrees(degrees)
 	{

@@ -3,7 +3,7 @@
 
 // SFML rect
 
-namespace cu::sys
+namespace Copper
 {
 	template <typename T>
 	Rect<T>::Rect(T x, T y, T width, T height)

@@ -6,7 +6,7 @@
 struct GLFWwindow;
 struct GLFWmonitor;
 
-namespace cu::sys
+namespace Copper
 {
 	class Window
 	{
