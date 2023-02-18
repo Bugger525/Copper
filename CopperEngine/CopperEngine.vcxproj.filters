@@ -54,10 +54,13 @@
     <ClCompile Include="Copper\Graphics\SpriteSheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Copper\System\AssetManager.cpp">
+    <ClCompile Include="Copper\Graphics\Image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Copper\System\Asset.cpp">
+    <ClCompile Include="Copper\System\WindowProperties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Copper\core\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -998,10 +1001,16 @@
     <ClInclude Include="Copper\Graphics\SpriteSheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Copper\System\AssetManager.h">
+    <ClInclude Include="Copper\core\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Copper\System\Asset.h">
+    <ClInclude Include="Copper\Graphics\Image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Copper\System\WindowProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Copper\core\Asset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1435,6 +1444,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Copper\System\Rect.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Copper\core\AssetManager.inl">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

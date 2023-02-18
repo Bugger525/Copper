@@ -1,18 +1,19 @@
 #pragma once
 
 #include <string>
+#include "WindowProperties.h"
 
 struct GLFWwindow;
 struct GLFWmonitor;
 
-namespace cu
+namespace cu::System
 {
 	class Window
 	{
 	private:
 		unsigned int m_PosX, m_PosY;
 		unsigned int m_Width, m_Height;
-		std::string_view m_Title;
+		std::string m_Title;
 
 		bool m_Fullscreen;
 		bool m_Resizable;
@@ -21,10 +22,8 @@ namespace cu
 		GLFWmonitor* m_Monitor;
 	public:
 		Window();
-		Window(unsigned int width, unsigned int height, std::string_view title);
+		Window(const WindowProperties& prop);
 		~Window();
-
-		bool Create(unsigned int width, unsigned int height, std::string_view title);
 
 		unsigned int GetPosX() const;
 		unsigned int GetPosY() const;

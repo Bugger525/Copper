@@ -1,31 +1,28 @@
 #pragma once
 
 #include <string>
-#include <span>
-#include <vector>
+#include "Image.h"
+#include "../core/IAsset.h"
 
-namespace cu
+namespace cu::gfx
 {
-	class Texture
+	class Texture : core::IAsset
 	{
 	private:
 		unsigned int m_Data;
 
-		unsigned int m_Width;
-		unsigned int m_Height;
-
-		std::vector<unsigned char> m_Image;
+		Image m_Image;
 	public:
 		Texture();
-		Texture(unsigned int width, unsigned int height, std::span<unsigned char> image);
+		Texture(const Image& image);
 		~Texture();
 
-		void Use() const;
+		void Bind() const;
 
-		unsigned int GetWidth() const;
-		unsigned int GetHeight() const;
-		const std::vector<unsigned char>& GetImage() const;
+		const Image& GetImage() const;
 
 		void Cleanup();
+
+		bool IsNull() const override;
 	};
 }

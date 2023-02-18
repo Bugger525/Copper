@@ -3,15 +3,16 @@
 #include <string>
 #include "Transform.h"
 #include "Color.h"
+#include "../core/IAsset.h"
 
-namespace cu
+namespace cu::gfx
 {
 	enum class ShaderType
 	{
 		Vertex,
 		Fragment
 	};
-	class Shader
+	class Shader : public core::IAsset
 	{
 	private:
 		unsigned int m_Data;
@@ -20,8 +21,6 @@ namespace cu
 		Shader(std::string_view shaderCode, ShaderType type);
 		Shader(std::string_view vertexShaderCode, std::string_view fragmentShaderCode);
 		~Shader();
-
-		void Init(std::string_view vertexShaderCode, std::string_view fragmentShaderCode);
 
 		unsigned int GetData() const;
 		void Use();
@@ -34,6 +33,9 @@ namespace cu
 		void SetUniform(std::string_view name, const Color& color) const;
 
 		void Cleanup();
+
+		bool IsNull() const override;
 	private:
+		unsigned int CompileShader(std::string_view shaderCode, ShaderType type);
 	};
 }

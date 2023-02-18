@@ -1,23 +1,31 @@
 #include "Copper/Copper.hpp"
-#include "Copper/System/AssetManager.h"
+#include "Copper/core/AssetManager.h"
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 #include <GL/gl3w.h>
 
-class DemoGame : public cu::Game
+using namespace cu::System;
+
+class DemoGame : public Game
 {
 private:
-	cu::Window m_Window;
-	cu::ShaderPtr m_Shader;
+	cu::gfx::Shader m_Shader;
 	cu::TexturePtr m_Texture;
 	cu::Renderer m_Renderer;
 protected:
+	const WindowProperties& SetWindowProperties() override
+	{
+		WindowProperties prop;
+		prop.Size = { 800, 600 };
+		prop.FullScreen = false;
+		prop.Resizable = true;
+
+		return prop;
+	}
 	void Initialize() override
 	{
-		m_Window.Create(800, 600, "CopperEngine Demo game");
-		this->SetWindow(m_Window);
+		auto shader = cu::core::AssetManager::Get<cu::gfx::Shader>("asd");
 
-		m_Shader = cu::AssetManager::LoadShaders("mainShader", "Shaders/shader.vert", "Shaders/shader.frag");
 		if (m_Shader == nullptr)
 		{
 			cu::Debug::Error("Shader fucked!");

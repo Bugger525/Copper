@@ -3,14 +3,12 @@
 #include "Window.h"
 #include <GL/gl3w.h>
 
-namespace cu
+namespace cu::System
 {
-	void Game::SetWindow(Window& window)
-	{
-		m_Window = window;
-	}
 	void Game::Run()
 	{
+		m_Window = Window(SetWindowProperties());
+
 		Initialize();
 
 		while (m_Window.IsOpen())

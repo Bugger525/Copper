@@ -26,30 +26,18 @@ static void APIENTRY GLFWDebugOutput(GLenum source, GLenum type, unsigned int id
 	}
 }
 
-namespace cu
+namespace cu::System
 {
 	Window::Window()
 		: m_PosX(0), m_PosY(0), m_Width(800), m_Height(600), m_Title("CopperEngine app"), m_Fullscreen(false), m_Resizable(true), m_Window(nullptr), m_Monitor(nullptr)
 	{
 	}
-	Window::Window(unsigned int width, unsigned int height, std::string_view title)
-		: m_PosX(0), m_PosY(0), m_Fullscreen(false), m_Resizable(true), m_Window(nullptr), m_Monitor(nullptr)
+	Window::Window(const WindowProperties& prop) : m_PosX(prop.Position.X), m_PosY(prop.Position.Y), m_Width(prop.Size.X), m_Height(prop.Size.Y), m_Title(prop.Title), m_Fullscreen(false), m_Resizable(true), m_Window(nullptr), m_Monitor(nullptr)
 	{
-		Create(width, height, title);
-	}
-	Window::~Window()
-	{
-		Cleanup();
-	}
-	bool Window::Create(unsigned int width, unsigned int height, std::string_view title)
-	{
-		m_Width = width;
-		m_Height = height;
-		m_Title = title;
-
 		if (!glfwInit())
 		{
-			return false;
+			Debug::Critical("Failed to init GLFW.");
+			return;
 		}
 
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -58,18 +46,14 @@ namespace cu
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
 		m_Monitor = glfwGetPrimaryMonitor();
-		const GLFWvidmode* mode = glfwGetVideoMode(m_Monitor);
-
-		m_PosX = mode->width / 2 - width / 2;
-		m_PosY = mode->height / 2 - height / 2;
 
 		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.data(), nullptr, nullptr);
 
 		glfwSetWindowPos(m_Window, m_PosX, m_PosY);
 		if (m_Window == nullptr)
 		{
-			Debug::Error("Failed to create GLFW window.");
-			return false;
+			Debug::Critical("Failed to create GLFW window.");
+			return;
 		}
 		glfwMakeContextCurrent(m_Window);
 		glfwFocusWindow(m_Window);
@@ -82,7 +66,7 @@ namespace cu
 		if (gl3wInit() != GL3W_OK)
 		{
 			Debug::Critical("Failed to initialize GL3W.");
-			return false;
+			return;
 		}
 
 		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -100,7 +84,11 @@ namespace cu
 			glDebugMessageCallback(GLFWDebugOutput, nullptr);
 			glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 		}
-		return true;
+		return;
+	}
+	Window::~Window()
+	{
+		Cleanup();
 	}
 	unsigned int Window::GetPosX() const
 	{

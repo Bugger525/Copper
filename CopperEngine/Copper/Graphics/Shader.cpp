@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "../System/Debug.h"
+#include "../core/AssetManager.h"
 
 #include <fstream>
 #include <sstream>
@@ -7,48 +8,16 @@
 
 #include <GL/gl3w.h>
 
-namespace cu
+namespace cu::gfx
 {
 	Shader::Shader() : m_Data(NULL)
 	{
 	}
 	Shader::Shader(std::string_view shaderCode, ShaderType type) : m_Data(NULL)
 	{
-		auto cShaderCode = shaderCode.data();
-
+		unsigned int shader = CompileShader(shaderCode, type);
 		int success = 0;
 		char infoLog[512]{};
-
-		unsigned int shader = NULL;
-
-		if (type == ShaderType::Vertex)
-		{
-			shader = glCreateShader(GL_VERTEX_SHADER);
-			glShaderSource(shader, 1, &cShaderCode, nullptr);
-			glCompileShader(shader);
-
-			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-			if (!success)
-			{
-				glGetShaderInfoLog(shader, 512, NULL, infoLog);
-				CU_DBG_CRITICAL("Failed to compile vertex shader : {}", infoLog);
-				return;
-			}
-		}
-		else
-		{
-			shader = glCreateShader(GL_FRAGMENT_SHADER);
-			glShaderSource(shader, 1, &cShaderCode, nullptr);
-			glCompileShader(shader);
-
-			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-			if (!success)
-			{
-				glGetShaderInfoLog(shader, 512, NULL, infoLog);
-				CU_DBG_CRITICAL("Failed to compile fragment shader : {}", infoLog);
-				return;
-			}
-		}
 
 		if (m_Data == NULL)
 			m_Data = glCreateProgram();
@@ -66,37 +35,10 @@ namespace cu
 	}
 	Shader::Shader(std::string_view vertexShaderCode, std::string_view fragmentShaderCode) : m_Data(NULL)
 	{
-		auto cVertexShaderCode = vertexShaderCode.data();
-		auto cFragmentShaderCode = fragmentShaderCode.data();
-
+		auto vertexShader = CompileShader(vertexShaderCode, ShaderType::Vertex);
+		auto fragmentShader = CompileShader(fragmentShaderCode, ShaderType::Fragment);
 		int success = 0;
 		char infoLog[512]{};
-
-		unsigned int vertexShader = NULL;
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &cVertexShaderCode, nullptr);
-		glCompileShader(vertexShader);
-
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-			CU_DBG_CRITICAL("Failed to compile vertex shader : {}", infoLog);
-			return;
-		}
-
-		unsigned int fragmentShader = NULL;
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &cFragmentShaderCode, nullptr);
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-			CU_DBG_CRITICAL("Failed to compile fragment shader : {}", infoLog);
-			return;
-		}
 
 		m_Data = glCreateProgram();
 
@@ -118,57 +60,6 @@ namespace cu
 	Shader::~Shader()
 	{
 		Cleanup();
-	}
-	void Shader::Init(std::string_view vertexShaderCode, std::string_view fragmentShaderCode)
-	{
-		auto cVertexShaderCode = vertexShaderCode.data();
-		auto cFragmentShaderCode = fragmentShaderCode.data();
-
-		int success = 0;
-		char infoLog[512]{};
-
-		unsigned int vertexShader = NULL;
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &cVertexShaderCode, nullptr);
-		glCompileShader(vertexShader);
-
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-			CU_DBG_CRITICAL("Failed to compile vertex shader : {}", infoLog);
-			return;
-		}
-
-		unsigned int fragmentShader = NULL;
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &cFragmentShaderCode, nullptr);
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-			CU_DBG_CRITICAL("Failed to compile fragment shader : {}", infoLog);
-			return;
-		}
-
-		m_Data = glCreateProgram();
-
-		glAttachShader(m_Data, vertexShader);
-		glAttachShader(m_Data, fragmentShader);
-		glLinkProgram(m_Data);
-
-		glGetProgramiv(m_Data, GL_LINK_STATUS, &success);
-		if (!success)
-		{
-			glGetProgramInfoLog(m_Data, 512, NULL, infoLog);
-			CU_DBG_CRITICAL("Failed to link program : {}", infoLog);
-			return;
-		}
-
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
 	}
 	unsigned int Shader::GetData() const
 	{
@@ -207,5 +98,48 @@ namespace cu
 	{
 		if (m_Data)
 			glDeleteProgram(m_Data);
+	}
+	unsigned int Shader::CompileShader(std::string_view shaderCode, ShaderType type)
+	{
+		auto cShaderCode = shaderCode.data();
+
+		int success = 0;
+		char infoLog[512]{};
+
+		unsigned int shader = NULL;
+
+		if (type == ShaderType::Vertex)
+		{
+			shader = glCreateShader(GL_VERTEX_SHADER);
+			glShaderSource(shader, 1, &cShaderCode, nullptr);
+			glCompileShader(shader);
+
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shader, 512, NULL, infoLog);
+				CU_DBG_CRITICAL("Failed to compile vertex shader : {}", infoLog);
+				return NULL;
+			}
+		}
+		else
+		{
+			shader = glCreateShader(GL_FRAGMENT_SHADER);
+			glShaderSource(shader, 1, &cShaderCode, nullptr);
+			glCompileShader(shader);
+
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shader, 512, NULL, infoLog);
+				CU_DBG_CRITICAL("Failed to compile fragment shader : {}", infoLog);
+				return NULL;
+			}
+		}
+		return shader;
+	}
+	bool Shader::IsNull() const
+	{
+		return !glIsProgram(m_Data);
 	}
 }
